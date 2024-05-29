@@ -1,45 +1,41 @@
 package com.makethedifference.mtd.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-import java.util.Date;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Data
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
     private String telefono;
 
     @Column(unique = true)
     private String correo;
+
     private String password;
-    private String rol = "maker"; // Valor por defecto
-    private Boolean estado = true; // Valor por defecto
+    private String rol = "maker"; // Rol por defecto
+    private boolean estado = true;
 
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = new Date();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+        this.updatedAt = LocalDateTime.now();
     }
 }
