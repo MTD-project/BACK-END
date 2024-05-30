@@ -1,4 +1,4 @@
-package com.makethedifference.mtd.controller;// UserController.java
+package com.makethedifference.mtd.controller;
 
 import com.makethedifference.mtd.service.UserService;
 import com.makethedifference.mtd.model.User;
