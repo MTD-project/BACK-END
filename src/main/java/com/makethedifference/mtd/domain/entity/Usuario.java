@@ -27,6 +27,7 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
+    private String apellido;
     @Column(unique = true)
     private String telefono;
     @Column(unique = true)
@@ -48,6 +49,9 @@ public class Usuario implements UserDetails {
     public void actualizarUsuario(DatosActualizarUsuario datosActualizarUsuario){
         if (datosActualizarUsuario.nombre() != null){
             this.nombre = datosActualizarUsuario.nombre();
+        }
+        if (datosActualizarUsuario.nombre() != null){
+            this.nombre = datosActualizarUsuario.apellido();
         }
         if (datosActualizarUsuario.telefono() != null){
             this.telefono = datosActualizarUsuario.telefono();

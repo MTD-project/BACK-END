@@ -60,6 +60,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public TokenResponse addUsuario(DatosRegistrarUsuario datos) {
         Usuario usuario = new Usuario();
         usuario.setNombre(datos.nombre());
+        usuario.setApellido(datos.apellido());
         usuario.setTelefono(datos.telefono());
         usuario.setCorreo(datos.correo());
         usuario.setPassword(passwordEncoder.encode(datos.password()));
