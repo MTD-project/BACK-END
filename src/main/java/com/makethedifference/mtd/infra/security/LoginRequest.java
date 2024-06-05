@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase que representa una solicitud de inicio de sesión.
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequest {
-    String correo;
-    String password;
+    String correo;  // Correo electrónico del usuario
+    String password;    // Contraseña del usuario
 }

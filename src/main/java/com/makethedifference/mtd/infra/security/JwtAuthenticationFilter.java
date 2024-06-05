@@ -21,8 +21,8 @@ import java.util.Collections;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+    private final JwtService jwtService; // Servicio para manejar JWT
+    private final UserDetailsService userDetailsService; // Servicio para cargar detalles del usuario
 
 
     @Override
@@ -54,6 +54,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Extrae el token JWT del encabezado de autorización de la solicitud.
+     *
+     * @param request La solicitud HTTP
+     * @return El token JWT si está presente y es válido, de lo contrario null
+     */
     private String getTokenFromRequest(HttpServletRequest request) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {

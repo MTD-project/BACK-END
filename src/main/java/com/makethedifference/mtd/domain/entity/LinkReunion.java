@@ -14,21 +14,21 @@ public class LinkReunion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;    // Identificador único de la reunión
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private Date fecha; // Fecha y hora de la reunión
 
-    private String url;
+    private String url; // URL del enlace de la reunión
 
-    private String titulo;
+    private String titulo;  // Título de la reunión
 
-    private String asunto;
+    private String asunto;  // Asunto de la reunión
 
     // Constructor vacío
     public LinkReunion() {}
 
-    // Constructor con parámetros
+    // Constructor con parámetros para inicializar todos los atributos
     public LinkReunion(Date fecha, String url, String titulo, String asunto) {
         this.fecha = fecha;
         this.url = url;
@@ -36,7 +36,7 @@ public class LinkReunion {
         this.asunto = asunto;
     }
 
-    // Método para crear LinkReunion
+    // Método estático para crear una nueva instancia de LinkReunion
     public static LinkReunion crearLink(Date fecha, String url, String titulo, String asunto) {
         return new LinkReunion(fecha, url, titulo, asunto);
     }

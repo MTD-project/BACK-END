@@ -14,18 +14,18 @@ public class Actividad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;    // Identificador único de la actividad
 
-    private String nombre;
+    private String nombre;  // Nombre de la actividad
 
-    private String descripcion;
+    private String descripcion; // Descripción de la actividad
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private Date fecha; // Fecha y hora de la actividad
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "linkreunion_id", referencedColumnName = "id")
-    private LinkReunion linkReunion;
+    private LinkReunion linkReunion;    // Enlace a la reunión asociada
 
     // Constructor vacío
     public Actividad() {}
@@ -38,7 +38,7 @@ public class Actividad {
         this.linkReunion = linkReunion;
     }
 
-    // Método para crear Actividad
+    // Método estático para crear una nueva actividad
     public static Actividad crearActividad(String nombre, String descripcion, Date fecha, LinkReunion linkReunion) {
         return new Actividad(nombre, descripcion, fecha, linkReunion);
     }

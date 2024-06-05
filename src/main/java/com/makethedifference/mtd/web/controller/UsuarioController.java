@@ -32,6 +32,12 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    /**
+     * Inicia sesión y genera un token para el usuario.
+     *
+     * @param request La solicitud de inicio de sesión.
+     * @return La respuesta con el token generado.
+     */
     @PostMapping("/login")
     @Transactional
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
@@ -47,23 +53,45 @@ public class UsuarioController {
         }
     }
 
+    /**
+     * Registra un nuevo usuario.
+     *
+     * @param datos Los datos del usuario a registrar.
+     * @return La respuesta con el token generado.
+     */
     @PostMapping("/registrar")
     @Transactional
     public ResponseEntity<TokenResponse> addUsuario(@RequestBody @Valid DatosRegistrarUsuario datos) {
         return ResponseEntity.ok(usuarioService.addUsuario(datos));
     }
 
+    /**
+     * Obtiene un usuario por su ID.
+     *
+     * @param id El ID del usuario.
+     * @return El usuario encontrado o null si no existe.
+     */
     @GetMapping("/{id}")
     public Usuario findById(@PathVariable Long id){
         return usuarioService.getUsuarioById(id).orElse(null);
     }
 
+    /**
+     * Obtiene el perfil del usuario autenticado.
+     *
+     * @return Los datos del usuario autenticado.
+     */
     @GetMapping("/perfil")
     public DatosListadoUsuario obtenerPerfil() {
         Usuario usuario = usuarioService.obtenerUsuarioAutenticado();
         return new DatosListadoUsuario(usuario);
     }
 
+    /**
+     * Elimina la cuenta del usuario autenticado.
+     *
+     * @return La respuesta indicando que la cuenta fue eliminada exitosamente.
+     */
     @DeleteMapping("/perfil/eliminar")
     public ResponseEntity<String> eliminarCuenta() {
         // Obtener al usuario autenticado
@@ -76,7 +104,12 @@ public class UsuarioController {
     }
 
 
-
+    /**
+     * Actualiza el perfil del usuario autenticado.
+     *
+     * @param datos Los nuevos datos del usuario.
+     * @return Los datos actualizados del usuario.
+     */
     @PutMapping("/perfil/actualizar")
     @Transactional
     public ResponseEntity<DatosListadoUsuario> actualizarPerfil(@RequestBody @Valid DatosActualizarUsuario datos) {
@@ -88,18 +121,34 @@ public class UsuarioController {
         return ResponseEntity.ok(new DatosListadoUsuario(usuarioAutenticado));
     }
 
+    /**
+     * Lista todos los usuarios.
+     *
+     * @return La lista de usuarios.
+     */
     @GetMapping("/listar")
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         List<Usuario> usuarios = usuarioService.findAll();
         return ResponseEntity.ok(usuarios);
     }
 
+    /**
+     * Lista todos los roles disponibles.
+     *
+     * @return La lista de roles.
+     */
     @GetMapping("/roles")
     public ResponseEntity<List<String>> listarRoles() {
         List<String> roles = List.of(Rol.ADMIN.name(), Rol.MAKER.name(), Rol.LIDER.name(), Rol.DIRECTOR.name());
         return ResponseEntity.ok(roles);
     }
 
+    /**
+     * Actualiza los roles de varios usuarios.
+     *
+     * @param request El cuerpo de la solicitud con los IDs de los usuarios y el nuevo rol.
+     * @return La respuesta indicando que los roles fueron actualizados exitosamente.
+     */
     @PutMapping("/actualizar-roles")
     public ResponseEntity<?> actualizarRoles(@RequestBody Map<String, Object> request) {
         List<Integer> selectedUsers = (List<Integer>) request.get("selectedUsers");

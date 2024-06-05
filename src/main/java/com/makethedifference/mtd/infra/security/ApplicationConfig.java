@@ -18,13 +18,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UsuarioRepository userRepository;
+    private final UsuarioRepository userRepository; // Repositorio de usuarios
 
+    // Bean para el AuthenticationManager, utilizado para gestionar la autenticación
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // Bean para el AuthenticationProvider, que gestiona la autenticación usando un DaoAuthenticationProvider
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider= new DaoAuthenticationProvider();
@@ -33,11 +35,13 @@ public class ApplicationConfig {
         return authenticationProvider;
     }
 
+    // Bean para el PasswordEncoder, que se usa para codificar las contraseñas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Bean para el UserDetailsService, que carga los detalles del usuario por correo electrónico
     @Bean
     public UserDetailsService userDetailService() {
         return correo -> userRepository.findByCorreo(correo)

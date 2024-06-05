@@ -43,20 +43,20 @@ public class SecurityConfig implements WebMvcConfigurer {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers(HttpMethod.GET).permitAll()
-                                .requestMatchers(HttpMethod.POST).permitAll()
-                                .requestMatchers(HttpMethod.PUT).permitAll()
-                                .requestMatchers(HttpMethod.DELETE).permitAll()
-                                .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                                .requestMatchers("/usuario/**").permitAll()
-                                .requestMatchers("/healthcheck").permitAll()
-                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/*","/swagger-ui/*").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.GET).permitAll() // Permite todas las solicitudes GET
+                                .requestMatchers(HttpMethod.POST).permitAll() // Permite todas las solicitudes POST
+                                .requestMatchers(HttpMethod.PUT).permitAll() // Permite todas las solicitudes PUT
+                                .requestMatchers(HttpMethod.DELETE).permitAll() // Permite todas las solicitudes DELETE
+                                .requestMatchers(HttpMethod.OPTIONS).permitAll() // Permite todas las solicitudes OPTIONS
+                                .requestMatchers("/usuario/**").permitAll() // Permite todas las solicitudes a /usuario/**
+                                .requestMatchers("/healthcheck").permitAll() // Permite todas las solicitudes a /healthcheck
+                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/*","/swagger-ui/*").permitAll() // Permite acceso a la documentación Swagger
+                                .anyRequest().authenticated() // Requiere autenticación para cualquier otra solicitud
                 )
                 .sessionManagement(sessionManager ->
                         sessionManager
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configura sesiones sin estado (stateless)
+                .authenticationProvider(authProvider) // Configura el proveedor de autenticación
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Agrega el filtro JWT antes del filtro de autenticación de nombre de usuario y contraseña
                 .build();
     }}
