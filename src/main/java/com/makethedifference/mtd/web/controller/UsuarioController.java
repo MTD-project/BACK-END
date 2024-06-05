@@ -18,6 +18,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/usuario")
 @CrossOrigin("*")
@@ -70,6 +72,8 @@ public class UsuarioController {
         return ResponseEntity.ok("Cuenta eliminada exitosamente");
     }
 
+
+
     @PutMapping("/perfil/actualizar")
     @Transactional
     public ResponseEntity<DatosListadoUsuario> actualizarPerfil(@RequestBody @Valid DatosActualizarUsuario datos) {
@@ -79,5 +83,11 @@ public class UsuarioController {
         usuarioService.updateUsuario(usuarioAutenticado);
 
         return ResponseEntity.ok(new DatosListadoUsuario(usuarioAutenticado));
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<Usuario>> listarUsuarios() {
+        List<Usuario> usuarios = usuarioService.findAll();
+        return ResponseEntity.ok(usuarios);
     }
 }
