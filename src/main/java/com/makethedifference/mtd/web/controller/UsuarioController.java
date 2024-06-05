@@ -1,8 +1,11 @@
 package com.makethedifference.mtd.web.controller;
 
+import java.util.List;
+import java.util.Map;
 import com.makethedifference.mtd.domain.dto.usuarioDto.DatosActualizarUsuario;
 import com.makethedifference.mtd.domain.dto.usuarioDto.DatosListadoUsuario;
 import com.makethedifference.mtd.domain.dto.usuarioDto.DatosRegistrarUsuario;
+import com.makethedifference.mtd.domain.entity.Rol;
 import com.makethedifference.mtd.domain.entity.Usuario;
 import com.makethedifference.mtd.infra.security.LoginRequest;
 import com.makethedifference.mtd.infra.security.TokenResponse;
@@ -89,5 +92,19 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         List<Usuario> usuarios = usuarioService.findAll();
         return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<String>> listarRoles() {
+        List<String> roles = List.of(Rol.ADMIN.name(), Rol.MAKER.name(), Rol.LIDER.name(), Rol.DIRECTOR.name());
+        return ResponseEntity.ok(roles);
+    }
+
+    @PutMapping("/actualizar-roles")
+    public ResponseEntity<?> actualizarRoles(@RequestBody Map<String, Object> request) {
+        List<Integer> selectedUsers = (List<Integer>) request.get("selectedUsers");
+        String newRole = (String) request.get("newRole");
+        usuarioService.cambiarRolUsuarios(selectedUsers, newRole);
+        return ResponseEntity.ok("Roles actualizados exitosamente");
     }
 }

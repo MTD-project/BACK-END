@@ -30,5 +30,9 @@ public interface UsuarioService {
     void eliminarUsuario(Usuario usuario);
 
     List<Usuario> findAll();
+
+    List<String> getAllRoles();
+
+    void cambiarRolUsuarios(List<Integer> usuarioIds, String nuevoRol);
 }
 

@@ -129,7 +129,24 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<Usuario> findAll() {
-        return List.of();
+        return usuarioRepository.findAll();
+    }
+
+    @Override
+    public List<String> getAllRoles() {
+        return List.of(Rol.ADMIN.name(), Rol.MAKER.name(), Rol.LIDER.name(), Rol.DIRECTOR.name());
+    }
+
+    @Transactional
+    @Override
+    public void cambiarRolUsuarios(List<Integer> usuarioIds, String nuevoRol) {
+        Rol rol = Rol.valueOf(nuevoRol);
+        usuarioIds.forEach(usuarioId -> {
+            Usuario usuario = usuarioRepository.findById(usuarioId.longValue())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            usuario.setRol(rol);
+            usuarioRepository.save(usuario);
+        });
     }
 }
 
