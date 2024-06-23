@@ -10,9 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
 
 @Entity(name = "Usuario")
 @Getter
@@ -22,7 +20,6 @@ import java.util.logging.Logger;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
-    private static final Logger logger = Logger.getLogger(Usuario.class.getName());
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +37,7 @@ public class Usuario implements UserDetails {
     private String password;    // Contraseña del usuario
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 100)
-    private Rol rol;   // Rol del usuario (ADMIN, MAKER, LIDER, DIRECTOR)
+    private Rol rol;    // Rol del usuario (ADMIN, MAKER, LIDER, DIRECTOR)
 
     @Column(updatable  = false)
     @CreationTimestamp
@@ -68,17 +64,7 @@ public class Usuario implements UserDetails {
         if (datosActualizarUsuario.correo() != null){
             this.correo = datosActualizarUsuario.correo();
         }
-        if (datosActualizarUsuario.rol() != null) {
-            try {
-                this.rol = Rol.valueOf(datosActualizarUsuario.rol().toUpperCase());
-                logger.info("Rol actualizado a: " + this.rol);
-            } catch (IllegalArgumentException e) {
-                logger.severe("Rol inválido: " + datosActualizarUsuario.rol());
-                throw new IllegalArgumentException("Rol inválido: " + datosActualizarUsuario.rol());
-            }
-        }
     }
-
 
     // Retorna la autoridad del usuario basada en su rol
     @Override
