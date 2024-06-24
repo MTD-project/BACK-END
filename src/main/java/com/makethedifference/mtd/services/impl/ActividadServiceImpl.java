@@ -65,4 +65,8 @@ public class ActividadServiceImpl implements ActividadService {
         return actividadRepository.save(actividad);
     }
 
+    @Override
+    public void limpiarActividades() {
+        actividadRepository.deleteAll();
+    }
 }

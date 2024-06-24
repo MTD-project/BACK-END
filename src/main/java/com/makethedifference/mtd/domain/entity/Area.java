@@ -1,19 +1,17 @@
 package com.makethedifference.mtd.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "area")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Area {
 
     @Id
@@ -24,12 +22,7 @@ public class Area {
 
     private String descripcion;
 
-    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Actividad> actividades;
-
-    // Método para agregar actividades
-    public void agregarActividad(Actividad actividad) {
-        actividad.setArea(this);
-        this.actividades.add(actividad);
-    }
 }

@@ -14,10 +14,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
+
     private final AreaRepository areaRepository;
 
     @Override
     public Area createArea(Area area) {
+        // Asigna el área a cada actividad
+        if (area.getActividades() != null) {
+            area.getActividades().forEach(actividad -> actividad.setArea(area));
+        }
         return areaRepository.save(area);
     }
 
@@ -27,6 +32,13 @@ public class AreaServiceImpl implements AreaService {
                 .orElseThrow(() -> new EntityNotFoundException("Area not found"));
         existingArea.setNombre(area.getNombre());
         existingArea.setDescripcion(area.getDescripcion());
+
+        // Asigna el área a cada actividad
+        if (area.getActividades() != null) {
+            area.getActividades().forEach(actividad -> actividad.setArea(existingArea));
+        }
+        existingArea.setActividades(area.getActividades());
+
         return areaRepository.save(existingArea);
     }
 
@@ -45,5 +57,10 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public Optional<Area> getAreaById(Long id) {
         return areaRepository.findById(id);
+    }
+
+    @Override
+    public void limpiarAreas() {
+        areaRepository.deleteAll();
     }
 }

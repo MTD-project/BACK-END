@@ -13,4 +13,5 @@ public interface ActividadService {
     Page<Actividad> listAllActividades(Pageable pageable);
     Optional<Actividad> getActividadById(Long id);
     Actividad cambiarEstado(Long id, Actividad.Estado estado);
+    void limpiarActividades();
 }

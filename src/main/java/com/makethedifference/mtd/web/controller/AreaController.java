@@ -44,4 +44,11 @@ public class AreaController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/limpiar")
+    @Transactional
+    public ResponseEntity<Void> limpiarAreas() {
+        areaService.limpiarAreas();
+        return ResponseEntity.noContent().build();
+    }
 }

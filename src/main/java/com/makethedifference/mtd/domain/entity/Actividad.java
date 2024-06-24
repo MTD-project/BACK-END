@@ -1,11 +1,10 @@
 package com.makethedifference.mtd.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class Actividad {
 
     @Id
@@ -39,8 +37,14 @@ public class Actividad {
 
     @ManyToOne
     @JoinColumn(name = "area_id")
-    private Area area;    // Relación con la entidad Area
+    @JsonBackReference
+    private Area area; // Relación con la entidad Area
 
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.PENDIENTE; // Estado de la actividad
+
+    // Constructor vacío
+    public Actividad() {
+        this.fecha = LocalDate.now(); // Asignar fecha actual al crear una nueva actividad
+    }
 }

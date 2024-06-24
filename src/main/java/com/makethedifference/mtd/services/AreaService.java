@@ -12,4 +12,5 @@ public interface AreaService {
     void deleteArea(Long id);
     Page<Area> listAllAreas(Pageable pageable);
     Optional<Area> getAreaById(Long id);
+    void limpiarAreas();
 }
