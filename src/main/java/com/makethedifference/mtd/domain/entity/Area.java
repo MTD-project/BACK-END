@@ -1,16 +1,16 @@
 package com.makethedifference.mtd.domain.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @AllArgsConstructor
-@NoArgsConstructor 
+@NoArgsConstructor
 @Entity
-@Table (name = "area")
+@Table(name = "area")
 @Getter
 @Setter
 public class Area {
@@ -23,4 +23,6 @@ public class Area {
 
     private String descripcion;
 
+    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Actividad> actividades;
 }
