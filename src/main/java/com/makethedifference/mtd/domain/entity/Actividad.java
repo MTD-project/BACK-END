@@ -11,6 +11,12 @@ import java.util.Date;
 @Setter
 public class Actividad {
 
+    public enum Estado {
+        PENDIENTE,
+        EN_CURSO,
+        FINALIZADO
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    // Identificador único de la actividad
@@ -30,6 +36,9 @@ public class Actividad {
     @JoinColumn(name = "area_id")
     private Area area;    // Relación con la entidad Area
 
+    @Enumerated(EnumType.STRING)
+    private Estado estado = Estado.PENDIENTE; // Estado de la actividad
+
     // Constructor vacío
     public Actividad() {}
 
@@ -40,6 +49,7 @@ public class Actividad {
         this.fecha = fecha;
         this.linkReunion = linkReunion;
         this.area = area;
+        this.estado = Estado.PENDIENTE;
     }
 
     // Método estático para crear una nueva actividad
