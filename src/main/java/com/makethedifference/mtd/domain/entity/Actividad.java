@@ -1,21 +1,20 @@
 package com.makethedifference.mtd.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "actividad")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Actividad {
-
-    public enum Estado {
-        PENDIENTE,
-        EN_CURSO,
-        FINALIZADO
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +22,16 @@ public class Actividad {
 
     private String nombre;  // Nombre de la actividad
 
+    @NotNull
     private String descripcion; // Descripción de la actividad
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha; // Fecha y hora de la actividad
+    public enum Estado {
+        PENDIENTE,
+        EN_CURSO,
+        FINALIZADO
+    }
+
+    private LocalDate fecha; // Fecha de la actividad
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "linkreunion_id", referencedColumnName = "id")
@@ -38,22 +43,4 @@ public class Actividad {
 
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.PENDIENTE; // Estado de la actividad
-
-    // Constructor vacío
-    public Actividad() {}
-
-    // Constructor con parámetros
-    public Actividad(String nombre, String descripcion, Date fecha, LinkReunion linkReunion, Area area) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.fecha = fecha;
-        this.linkReunion = linkReunion;
-        this.area = area;
-        this.estado = Estado.PENDIENTE;
-    }
-
-    // Método estático para crear una nueva actividad
-    public static Actividad crearActividad(String nombre, String descripcion, Date fecha, LinkReunion linkReunion, Area area) {
-        return new Actividad(nombre, descripcion, fecha, linkReunion, area);
-    }
 }

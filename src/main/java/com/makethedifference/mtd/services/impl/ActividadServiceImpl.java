@@ -4,12 +4,13 @@ import com.makethedifference.mtd.domain.entity.Actividad;
 import com.makethedifference.mtd.infra.repository.ActividadRepository;
 import com.makethedifference.mtd.services.ActividadService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -19,6 +20,9 @@ public class ActividadServiceImpl implements ActividadService {
 
     @Override
     public Actividad createActividad(Actividad actividad) {
+        if (actividad.getFecha() == null) {
+            actividad.setFecha(LocalDate.now());
+        }
         return actividadRepository.save(actividad);
     }
 
@@ -52,6 +56,7 @@ public class ActividadServiceImpl implements ActividadService {
         return actividadRepository.findById(id);
     }
 
+    @Transactional
     @Override
     public Actividad cambiarEstado(Long id, Actividad.Estado estado) {
         Actividad actividad = actividadRepository.findById(id)
@@ -60,11 +65,4 @@ public class ActividadServiceImpl implements ActividadService {
         return actividadRepository.save(actividad);
     }
 
-    @Override
-    public Actividad asignarFecha(Long id, Date fecha) {
-        Actividad actividad = actividadRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Actividad not found"));
-        actividad.setFecha(fecha);
-        return actividadRepository.save(actividad);
-    }
 }
