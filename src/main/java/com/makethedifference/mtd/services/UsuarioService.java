@@ -59,9 +59,8 @@ public interface UsuarioService {
      * Cambia el rol de un usuario.
      *
      * @param usuarioId El ID del usuario.
-     * @param nuevoRol El nuevo rol para el usuario.
+     * @param nuevoRol  El nuevo rol para el usuario.
      */
-    void cambiarRolUsuario(Long usuarioId, Rol nuevoRol);
 
     /**
      * Actualiza los datos de un usuario.

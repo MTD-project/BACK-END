@@ -21,8 +21,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/usuario")
 @CrossOrigin("*")
@@ -146,14 +144,14 @@ public class UsuarioController {
     /**
      * Actualiza los roles de varios usuarios.
      *
-     * @param request El cuerpo de la solicitud con los IDs de los usuarios y el nuevo rol.
      * @return La respuesta indicando que los roles fueron actualizados exitosamente.
      */
     @PutMapping("/actualizar-roles")
-    public ResponseEntity<?> actualizarRoles(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<Map<String, String>> actualizarRoles(@RequestBody Map<String, Object> request) {
         List<Integer> selectedUsers = (List<Integer>) request.get("selectedUsers");
         String newRole = (String) request.get("newRole");
         usuarioService.cambiarRolUsuarios(selectedUsers, newRole);
-        return ResponseEntity.ok("Roles actualizados exitosamente");
+
+        return ResponseEntity.ok(Map.of("message", "Roles actualizados exitosamente"));
     }
 }
