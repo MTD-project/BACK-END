@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
@@ -36,7 +36,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public TokenResponse login(LoginRequest request) {
-        // Autentica al usuario con las credenciales proporcionadas
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getCorreo(),
@@ -48,12 +47,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario user = usuarioRepository.findByCorreo(request.getCorreo())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con username: " + request.getCorreo()));
 
-        // Verifica si el usuario está habilitado
         if (!user.isEnabled()) {
             throw new DisabledException("Este usuario ha sido deshabilitado.");
         }
 
-        // Genera un token JWT para el usuario autenticado
         String token = jwtService.getToken(user, user);
         return TokenResponse.builder()
                 .token(token)
@@ -62,7 +59,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public TokenResponse addUsuario(DatosRegistrarUsuario datos) {
-        // Crea un nuevo usuario a partir de los datos de registro
         Usuario usuario = new Usuario();
         usuario.setNombre(datos.nombre());
         usuario.setApellido(datos.apellido());
@@ -71,10 +67,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setPassword(passwordEncoder.encode(datos.password()));
         usuario.setRol(Rol.MAKER);
 
-        // Guarda el nuevo usuario en el repositorio
         usuarioRepository.save(usuario);
 
-        // Genera un token JWT para el nuevo usuario
         String token = jwtService.getToken(usuario, usuario);
         return TokenResponse.builder()
                 .token(token)
@@ -83,19 +77,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Page<Usuario> getAllUsuarios(Pageable pageable) {
-        // Obtiene todos los usuarios de manera paginada
         return usuarioRepository.findAll(pageable);
     }
 
     @Override
     public Optional<Usuario> getUsuarioById(Long id) {
-        // Busca un usuario por su ID
         return usuarioRepository.findById(id);
     }
 
     @Override
     public Usuario obtenerUsuarioAutenticado() {
-        // Obtiene el usuario actualmente autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -109,24 +100,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Transactional
     @Override
-    public void cambiarRolUsuario(Long usuarioId, Rol nuevoRol) {
-        // Cambia el rol de un usuario específico
-        Usuario usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        usuario.setRol(nuevoRol);
-        usuarioRepository.save(usuario);
-    }
-
-    @Transactional
-    @Override
     public void updateUsuario(Usuario usuario) {
-        // Valida y actualiza los datos de un usuario
         validarDatosUsuario(usuario);
         usuarioRepository.save(usuario);
     }
 
     private void validarDatosUsuario(Usuario usuario) {
-        // Valida que el correo del usuario no sea nulo ni vacío
         if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
             throw new ValidacionDeIntegridad("El username no puede ser vacío");
         }
@@ -135,14 +114,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     @Override
     public void eliminarUsuario(Usuario usuario) {
-        // Deshabilita un usuario en lugar de eliminarlo físicamente
         usuario.setEnabled(false);
         usuarioRepository.save(usuario);
     }
 
     @Override
     public List<Usuario> findAll() {
-        // Obtiene una lista de todos los usuarios
         return usuarioRepository.findAll();
     }
 
@@ -165,4 +142,3 @@ public class UsuarioServiceImpl implements UsuarioService {
         });
     }
 }
-

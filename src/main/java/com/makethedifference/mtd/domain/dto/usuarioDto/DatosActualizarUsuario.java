@@ -5,7 +5,8 @@ public record DatosActualizarUsuario(
         String nombre,
         String apellido,
         String telefono,
-        String correo
+        String correo,
+        String rol
 
 ) {
 }
