@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.TimeZone;
 
-@SpringBootApplication(scanBasePackages = "com.makethedifference.mtd")
+@SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
 
