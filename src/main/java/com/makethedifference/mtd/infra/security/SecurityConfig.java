@@ -32,7 +32,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         // Configuración CORS
         http.cors(cors -> cors.configurationSource(request -> {
             CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Solo la URL del frontend
+            configuration.setAllowedOrigins(List.of("*")); // Solo la URL del frontend
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
             configuration.setAllowCredentials(true);
