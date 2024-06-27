@@ -126,7 +126,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<String> getAllRoles() {
         // Devuelve una lista con todos los roles disponibles
-        return List.of(Rol.ADMIN.name(), Rol.MAKER.name(), Rol.LIDER.name(), Rol.DIRECTOR.name());
+        return List.of(Rol.ADMIN.name(), Rol.MAKER.name());
     }
 
     @Transactional
