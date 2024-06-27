@@ -51,18 +51,18 @@ public class Usuario implements UserDetails {
 
 
     // Método para actualizar datos del usuario
-    public void actualizarUsuario(DatosActualizarUsuario datosActualizarUsuario){
-        if (datosActualizarUsuario.nombre() != null){
-            this.nombre = datosActualizarUsuario.nombre();
+    public void actualizarUsuario(DatosActualizarUsuario datosActualizarUsuario) {
+        if (datosActualizarUsuario.getNombre() != null) {
+            this.nombre = datosActualizarUsuario.getNombre();
         }
-        if (datosActualizarUsuario.nombre() != null){
-            this.nombre = datosActualizarUsuario.apellido();
+        if (datosActualizarUsuario.getApellido() != null) {
+            this.apellido = datosActualizarUsuario.getApellido();
         }
-        if (datosActualizarUsuario.telefono() != null){
-            this.telefono = datosActualizarUsuario.telefono();
+        if (datosActualizarUsuario.getTelefono() != null) {
+            this.telefono = datosActualizarUsuario.getTelefono();
         }
-        if (datosActualizarUsuario.correo() != null){
-            this.correo = datosActualizarUsuario.correo();
+        if (datosActualizarUsuario.getCorreo() != null) {
+            this.correo = datosActualizarUsuario.getCorreo();
         }
     }
 

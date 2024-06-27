@@ -119,6 +119,7 @@ public class UsuarioController {
         return ResponseEntity.ok(new DatosListadoUsuario(usuarioAutenticado));
     }
 
+
     /**
      * Lista todos los usuarios.
      *
