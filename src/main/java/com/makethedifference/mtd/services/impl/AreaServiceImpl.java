@@ -19,7 +19,6 @@ public class AreaServiceImpl implements AreaService {
 
     @Override
     public Area createArea(Area area) {
-        // Asigna el área a cada actividad
         if (area.getActividades() != null) {
             area.getActividades().forEach(actividad -> actividad.setArea(area));
         }
@@ -32,13 +31,10 @@ public class AreaServiceImpl implements AreaService {
                 .orElseThrow(() -> new EntityNotFoundException("Area not found"));
         existingArea.setNombre(area.getNombre());
         existingArea.setDescripcion(area.getDescripcion());
-
-        // Asigna el área a cada actividad
         if (area.getActividades() != null) {
             area.getActividades().forEach(actividad -> actividad.setArea(existingArea));
         }
         existingArea.setActividades(area.getActividades());
-
         return areaRepository.save(existingArea);
     }
 

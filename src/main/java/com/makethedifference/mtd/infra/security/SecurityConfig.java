@@ -32,14 +32,14 @@ public class SecurityConfig implements WebMvcConfigurer {
         // Configuración CORS
         http.cors(cors -> cors.configurationSource(request -> {
             CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(List.of("*"));
-            configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+            configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Solo la URL del frontend
             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
             configuration.setAllowCredentials(true);
             return configuration;
         }));
-        //Cross-site request forgery (CSRF)
+
+        // Desactivar CSRF
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authRequest ->
                         authRequest
@@ -50,9 +50,10 @@ public class SecurityConfig implements WebMvcConfigurer {
                                 .requestMatchers(HttpMethod.OPTIONS).permitAll() // Permite todas las solicitudes OPTIONS
                                 .requestMatchers(HttpMethod.GET, "/api/v1/usuario/perfil").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuario/login", "/api/v1/usuario/registrar").permitAll()
+                                .requestMatchers("/password/**").permitAll() // Permite todas las solicitudes relacionadas con el restablecimiento de contraseña
                                 .requestMatchers("/usuario/**").permitAll() // Permite todas las solicitudes a /usuario/**
                                 .requestMatchers("/healthcheck").permitAll() // Permite todas las solicitudes a /healthcheck
-                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/*","/swagger-ui/*").permitAll() // Permite acceso a la documentación Swagger
+                                .requestMatchers("/swagger-ui.html", "/v3/api-docs/*", "/swagger-ui/*").permitAll() // Permite acceso a la documentación Swagger
                                 .anyRequest().authenticated() // Requiere autenticación para cualquier otra solicitud
                 )
                 .sessionManagement(sessionManager ->
@@ -61,4 +62,5 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authenticationProvider(authProvider) // Configura el proveedor de autenticación
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Agrega el filtro JWT antes del filtro de autenticación de nombre de usuario y contraseña
                 .build();
-    }}
+    }
+}
