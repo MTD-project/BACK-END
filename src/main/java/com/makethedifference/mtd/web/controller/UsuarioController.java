@@ -138,7 +138,7 @@ public class UsuarioController {
      */
     @GetMapping("/roles")
     public ResponseEntity<List<String>> listarRoles() {
-        List<String> roles = List.of(Rol.ADMIN.name(), Rol.MAKER.name(), Rol.LIDER.name(), Rol.DIRECTOR.name());
+        List<String> roles = List.of(Rol.ADMIN.name(), Rol.MAKER.name());
         return ResponseEntity.ok(roles);
     }
 
