@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "actividad")
@@ -45,6 +46,9 @@ public class Actividad {
 
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.PENDIENTE; // Estado de la actividad
+
+    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Archivo> archivos;
 
     // Constructor vacío
     public Actividad() {
