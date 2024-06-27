@@ -40,6 +40,9 @@ public class Actividad {
     @JsonBackReference
     private Area area; // Relación con la entidad Area
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Usuario usuario;
+
     @Enumerated(EnumType.STRING)
     private Estado estado = Estado.PENDIENTE; // Estado de la actividad
 

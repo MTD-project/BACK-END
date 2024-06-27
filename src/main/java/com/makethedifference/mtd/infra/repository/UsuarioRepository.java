@@ -10,12 +10,5 @@ import java.util.Optional;
  * Proporciona métodos para realizar operaciones CRUD en la entidad Usuario.
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
-    /**
-     * Busca un usuario por su correo electrónico.
-     *
-     * @param correo El correo electrónico del usuario.
-     * @return Un Optional que contiene el usuario si se encuentra, o vacío si no.
-     */
     Optional<Usuario> findByCorreo(String correo);
 }

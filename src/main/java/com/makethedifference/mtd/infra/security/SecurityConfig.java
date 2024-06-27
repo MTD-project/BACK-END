@@ -48,6 +48,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                                 .requestMatchers(HttpMethod.PUT).permitAll() // Permite todas las solicitudes PUT
                                 .requestMatchers(HttpMethod.DELETE).permitAll() // Permite todas las solicitudes DELETE
                                 .requestMatchers(HttpMethod.OPTIONS).permitAll() // Permite todas las solicitudes OPTIONS
+                                .requestMatchers(HttpMethod.GET, "/api/v1/usuario/perfil").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/api/v1/usuario/login", "/api/v1/usuario/registrar").permitAll()
                                 .requestMatchers("/usuario/**").permitAll() // Permite todas las solicitudes a /usuario/**
                                 .requestMatchers("/healthcheck").permitAll() // Permite todas las solicitudes a /healthcheck
                                 .requestMatchers("/swagger-ui.html", "/v3/api-docs/*","/swagger-ui/*").permitAll() // Permite acceso a la documentación Swagger

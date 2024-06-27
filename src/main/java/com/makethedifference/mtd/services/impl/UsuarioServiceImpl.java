@@ -88,11 +88,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario obtenerUsuarioAutenticado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("No hay usuario autenticado");
         }
-
         String currentUserName = authentication.getName();
         return usuarioRepository.findByCorreo(currentUserName)
                 .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));

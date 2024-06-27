@@ -49,6 +49,8 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, name = "estado")
     private boolean enabled = true; // Indica si el usuario está habilitado
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "usuario")
+    private Set<Actividad> actividad;
 
     // Método para actualizar datos del usuario
     public void actualizarUsuario(DatosActualizarUsuario datosActualizarUsuario){

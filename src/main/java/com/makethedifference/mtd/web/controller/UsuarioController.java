@@ -80,9 +80,10 @@ public class UsuarioController {
      * @return Los datos del usuario autenticado.
      */
     @GetMapping("/perfil")
-    public DatosListadoUsuario obtenerPerfil() {
+    public ResponseEntity<DatosListadoUsuario> obtenerPerfil() {
         Usuario usuario = usuarioService.obtenerUsuarioAutenticado();
-        return new DatosListadoUsuario(usuario);
+        DatosListadoUsuario datosUsuario = new DatosListadoUsuario(usuario);
+        return ResponseEntity.ok(datosUsuario);
     }
 
     /**
